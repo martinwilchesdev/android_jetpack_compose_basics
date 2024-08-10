@@ -1,0 +1,6 @@
+<!-- El archivo de recursos strings permite extraer de forma separada el texto que se usan en la aplicacion -->
+<resources>
+    <string name="app_name">BrithdayCard</string>
+    <string name="happy_birthday_message">Happy Birthday Sam!</string>
+    <string name="happy_birthday_from">From Ada Lovelace</string>
+</resources>
