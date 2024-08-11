@@ -25,6 +25,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.rollerapp.ui.theme.RollerAppTheme
 
+/**
+ * * Depuracion de aplicaciones
+ * Existen 2 maneras de ejecutar el depurador junto a la app:
+ * - Adjuntar el depurador a un proceso existente en ejecucion.
+ * - Ejecutar la app con el depurador.
+ *
+ * El boton Threads & Variables mostrado al iniciar el modo depuracion tiene 3 paneles separados:
+ * 1. Pantalla frames
+ * 2. Entrada de expresion de evaluacion y observacion.
+ * 3. Panel de variables.
+ *
+ * Una de las principales funciones del depurador es que permite detener la ejecucion en una linea
+ * de codigo especifica con un punto de interrupcion.
+ * Para establecer un punto de interrupcion en Android Studio se debe navegar a una linea de codigo
+ * especifica y hacer clic en el margen junto al numero de la linea.
+ * Al establecer un punto de interrupcion la ejecucion de la app se detendra cuando se ejecute la linea
+ * de codigo asociada a la depuracion realizada.
+ *
+ * En la consola de depuracion, el boton `resume` permite reanudar nuevamente la ejecucion de la app,
+ * aunque el depurador continua adjunto a la misma y no se interrumpira hasta que se ejecute nuevamente la
+ * linea de codigo que tiene el punto de interrupcion establecido.
+ * */
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
