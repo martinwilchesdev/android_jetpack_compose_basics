@@ -19,7 +19,7 @@ import com.example.firstapp.ui.theme.FirstAppTheme
 class MainActivity : ComponentActivity() {
     /**
      * La funcion onCreate() es el punto de partida de la aplicacion.
-     * Dentro de onCreate() se hace el llamado a otras funciones para asi compilar la interfaz de usuario.
+     * Llama otras funciones para compilar la interfaz de usuario.
      * */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +45,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String) {
     /**
-     * Surface es un contenedor que representa una seccion de la IU en la cual se puede modificar el aspecto.
-     * Modifier se utiliza para decorar un elemento que admite composicion.
+     * Surface es un contenedor que representa una seccion de la IU en la que se puede modificar el aspecto.
+     * Modifier se utliza para decorar un elemento que admite composicion.
      * */
     Surface(color = Color.Cyan, modifier = Modifier.fillMaxSize()) {
         Text(
@@ -57,8 +57,7 @@ fun Greeting(name: String) {
     }
 }
 
-// El parametro showBackground recibe un valor booleano, el cual permite modificar el tema de la previsualizacion
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true) // showBackground recibe un valor booleano, el cual permite modificar el tema de la previsualizacion
 @Composable
 fun GreetingPreview() {
     FirstAppTheme {
