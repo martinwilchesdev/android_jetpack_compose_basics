@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -40,6 +41,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tiptime.ui.theme.TipTimeTheme
@@ -81,6 +83,27 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TipTimeLayout() {
+    /**
+     * La variable amountInput representa el estado del cuadro de texto.
+     *
+     * Las funciones de componibilidad pueden almacenar un objeto entre recomposiciones con remember.
+     * Un valor calculado por la funcion remember se almacena en la composicion durenta la composicion inicial
+     * y el valor almacenado se muestra durante la recomposcion.
+     *
+     * Mediante la delegacion de propiedades las funciones de los metodos get y set de la propiedad amountInput
+     * se delegan a las funciones del metodo get y set de remember.
+     * */
+    var amountInput by remember {
+        mutableStateOf("")
+    }
+
+    /**
+     * toDoubleOrNull() es una funcion de Kotlin que analiza una cadena como un numero Double o null si la cadena
+     * no es una representacion valida de un numero.
+     * */
+    val amount = amountInput.toDoubleOrNull() ?: 0.00
+    val tip = calculateTip(amount)
+
     Column(
         modifier = Modifier
             .statusBarsPadding()
@@ -95,32 +118,35 @@ fun TipTimeLayout() {
                 .padding(bottom = 16.dp, top = 40.dp)
                 .align(alignment = Alignment.Start)
         )
-        EditNumberField(modifier = Modifier
-            .padding(bottom = 32.dp)
-            .fillMaxWidth())
+        EditNumberField(
+            value = amountInput,
+            onValueChange = { amountInput = it },
+            modifier = Modifier
+                .padding(bottom = 32.dp)
+                .fillMaxWidth()
+        )
         Text(
-            text = stringResource(R.string.tip_amount, "$0.00"),
+            /**
+             * El formato posicional se usa para mostrar contenido dinamico en cadenas de texto.
+             * Para usar el formato posicional, en el archivo strings.xml se debe definir el recurso con un argumento
+             * de marcador de posicion `Tip amount %s`. En el siguiente ejemplo el valor de `tip` sera el valor mostrado
+             * en la pantalla en lugar del marcador de posicion `%s`.
+             * */
+            text = stringResource(R.string.tip_amount, tip),
             style = MaterialTheme.typography.displaySmall
         )
         Spacer(modifier = Modifier.height(150.dp))
     }
 }
 
+/**
+ * Cuando se aplica a los elementos componibles la elevacion de estado, esto implica incorporar 2 parametros al elemento.
+ * - Un parametro `value: T`, que es el valor actual que se mostrara.
+ * - Una lambda de devolucion de llamada `onValueChange: (T) -> Unit`, que se activa cuando cambiar el valor para que el estado
+ * se pueda actualizar en otro lugar.
+ * */
 @Composable
-fun EditNumberField(modifier: Modifier = Modifier) {
-    /**
-     * La variable amountInput representa el estado del cuadro de texto.
-     *
-     * Las funciones de componibilidad pueden almacenar un objeto entre recomposiciones con remember.
-     * Un valor calculado por la funcion remember se almacena en la composicion durenta la composicion inicial
-     * y el valor almacenado se muestra durante la recomposcion.
-     *
-     * Mediante la delegacion de propiedades las funciones de los metodos get y set de la propiedad amountInput
-     * se delegan a las funciones del metodo get y set de remember.
-     * */
-    var amountInput by remember {
-        mutableStateOf("")
-    }
+fun EditNumberField(value: String, onValueChange: (String) -> Unit, modifier: Modifier = Modifier) {
     /**
      * value :: Cuadro de texto que muestra el valor de cadena pasado al control input
      * onValueChange :: Devolucion de llamada de la funcion lambda que se activa cuando se ingresa texto
@@ -131,9 +157,19 @@ fun EditNumberField(modifier: Modifier = Modifier) {
      * amountInput es el estado observado durante la recomposicion. Ya que se estas usando rememeber {}
      * el cambio realizado sobrevive a la recomposicion, por lo cual no se vuelve a inicializar en ""
      * */
-    TextField(value = amountInput, onValueChange = {
-        amountInput = it
-    }, modifier = modifier)
+    TextField(
+        value = value, onValueChange = onValueChange,
+        /**
+         * El parametro label define una etiqueta que se ubicara en el medio del campo de texto.
+         * El valor de label es una lambda en la cual se define un elemento componible Text.
+         * */
+        label = { Text(text = stringResource(id = R.string.bill_amount)) },
+        // El parametro singleLine permite definir si dentro del control de texto se permiten o no los saltos de linea
+        singleLine = true,
+        // El parametro keyBoardOptions configura el teclado que se muestra en pantalla.
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        modifier = modifier
+    )
 }
 
 /**
