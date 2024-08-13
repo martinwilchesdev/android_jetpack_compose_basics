@@ -28,12 +28,6 @@ import com.example.affirmations.data.Datasource
 import com.example.affirmations.model.Affirmation
 import com.example.affirmations.ui.theme.AffirmationsTheme
 
-/**
- * Para los elementos de lista que tienen varios datos, como una imagen y texto, se necesita una clase
- * que contenga todas estas propiedades.
- * Las clases de datos son un tipo de clase que solo contiene propiedades.
- * */
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +45,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/**
+ * Para los elementos de lista que tienen varios datos, como una imagen y texto,
+ * se necesita una clase que contenga todas estas propiedades.
+ * Las clases de datos son un tipo de clase que solo contiene propiedades.
+ * */
 @Composable
 fun AffirmationsList(affirmationsList: List<Affirmation>, modifier: Modifier = Modifier) {
     /**
