@@ -6,7 +6,7 @@ The Woof app is a list of dog photos with information about them including their
 Introduction
 ------------
 
-This is the solution code for the Woof app project. This project is an opportunity for you to learn Material3 and reinforce the concepts you've learned so far in Android Basics with Compose.
+This is the starter code for the Woof app project. This project is an opportunity for you to learn Material3 and reinforce the concepts you've learned so far in Android Basics with Compose.
 
 Pre-requisites
 --------------

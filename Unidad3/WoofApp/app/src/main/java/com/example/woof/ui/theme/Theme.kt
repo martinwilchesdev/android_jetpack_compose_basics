@@ -84,19 +84,16 @@ private val DarkColors = darkColorScheme(
 @Composable
 fun WoofTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
+    /**
+     * El color dinamico crea un tema para la app en funcion del fondo de pantalla del usuario.
+     * Los temas dinamicos solo estan disponibles en dispositivos que ejecutan Android 12 o versiones superiores.
+     * */
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        // Si dynamicColor es true y la version de compilacion es S o superior
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            /**
-             * Se comprueba si el dispositivo esta en modo oscuro.
-             * Si el sistema esta en modo oscuro, se establece el colorSchema como dynamicDarkColorScheme.
-             * Si el sistema esta en modo claro, se establece el colorSchema como dynamicLightColorScheme.
-             * */
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 

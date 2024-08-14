@@ -19,7 +19,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes
 import androidx.compose.ui.unit.dp
 
+/**
+ * El archivo Shape se usa para definir formas de componentes en Compose.
+ * Existen 3 tipos de componentes, pequeños, medianos y grandes.
+ * */
+
 val Shapes = Shapes(
     small = RoundedCornerShape(50.dp),
+    /**
+     * El componente Card de forma predeterminada ya usa la forma medium, por no cual dicha forma no
+     * necesita ser establecida explicitamente en el elemento.
+     * */
     medium = RoundedCornerShape(bottomStart = 16.dp, topEnd = 16.dp)
 )

@@ -23,18 +23,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.woof.R
 
-val AbrilFatface = FontFamily(
+// Inicializacion de las fuentes
+val AbrilFatFace = FontFamily(
     Font(R.font.abril_fatface_regular)
 )
 
 val Montserrat = FontFamily(
+    /**
+     * Aunque se pase la version en negrita de un archivo de fuente, Compose no sabe que esta en negrita
+     * por cual se debe vincular el archivo a FontWeight.Bold.
+     * */
     Font(R.font.montserrat_regular),
     Font(R.font.montserrat_bold, FontWeight.Bold)
 )
 
+// Set of Material typography styles to start with
 val Typography = Typography(
+    // El objeto Typography tiene parametros para los 13 tipos de letra que puede tener la app.
     displayLarge = TextStyle(
-        fontFamily = AbrilFatface,
+        fontFamily = AbrilFatFace,
         fontWeight = FontWeight.Normal,
         fontSize = 36.sp
     ),
