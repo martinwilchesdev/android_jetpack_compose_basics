@@ -23,7 +23,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -62,6 +67,7 @@ import androidx.compose.ui.unit.dp
 import com.example.woof.data.Dog
 import com.example.woof.data.dogs
 import com.example.woof.ui.theme.WoofTheme
+import kotlin.math.exp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,14 +128,33 @@ fun DogItem(
     var expanded by remember {
         mutableStateOf(false)
     }
-    /**
+
+    // La funcion animate*AsState() recibe un parametro targetValue el cual se configurara a partir de la evaluacion booleana
+    val color by animateColorAsState(
+        targetValue = if (expanded) MaterialTheme.colorScheme.primaryContainer
+        else MaterialTheme.colorScheme.secondaryContainer
+    )
+    /**s
      * Como Card es el primer elemento componible secundario, el modificador de DogItem() es pasado a Card(),
      * mientras que en Row() se define una nueva instancia de Modifier.
      *
      * Un elemento Card es una superficie que poueden contener un solo elemento componible y opciones de decoracion
      * */
     Card(modifier = modifier) {
-        Column {
+        /**
+         * El modificador animateContentSize() permite animar la altura de un elemento.
+         * El parametro opcional animationSpec permite personalizar la animacion.
+         * */
+        Column(
+            modifier = Modifier
+                .animateContentSize(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioNoBouncy, // Animacion de resorte sin rebote
+                        stiffness = Spring.StiffnessMedium // Resorte medianamente rigido
+                    )
+                )
+            //.background(color = color)
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

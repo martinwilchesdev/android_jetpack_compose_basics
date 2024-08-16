@@ -66,3 +66,16 @@ en el contenido.
 3. Los archivos descargados deben ser movidos al directorio `font` creado anteriormente.
 
 > Los nombres de los archivos de fuente deben tener el formato snake_case.ttf
+
+## Animaciones
+
+Las animaciones son utiles cuando la IU cambia de estado, como cuando se carga nuevo contenido o
+cuando hay acciones nuevas disponibles.
+
+## Accesibilidad
+
+TakBack es un lector de pantalla de Google que proporciona comentarios por voz para que los usuarios
+puedan navegar por un dispositivo sin necesidad de visualizar la pantalla.
+
+Una vez TakBack este habilitado los usuarios podran navegar por el dispositivo mediante comentarios
+por voz y gestos, como deslizar el dedo y presionar la pantalla.
