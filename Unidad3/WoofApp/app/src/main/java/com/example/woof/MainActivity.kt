@@ -26,6 +26,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,6 +34,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -56,6 +58,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.woof.data.Dog
 import com.example.woof.data.dogs
 import com.example.woof.ui.theme.WoofTheme
@@ -114,8 +117,7 @@ fun WoofApp() {
  */
 @Composable
 fun DogItem(
-    dog: Dog,
-    modifier: Modifier = Modifier
+    dog: Dog, modifier: Modifier = Modifier
 ) {
     var expanded by remember {
         mutableStateOf(false)
@@ -127,29 +129,65 @@ fun DogItem(
      * Un elemento Card es una superficie que poueden contener un solo elemento componible y opciones de decoracion
      * */
     Card(modifier = modifier) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(dimensionResource(R.dimen.padding_small))
-        ) {
-            DogIcon(dog.imageResourceId)
-            DogInformation(dog.name, dog.age)
-            DogItemButton(expanded, { expanded = !expanded }, modifier = Modifier.weight(1f))
+        Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(dimensionResource(R.dimen.padding_small)),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                DogIcon(dog.imageResourceId)
+                DogInformation(dog.name, dog.age)
+                /**
+                 * El elemento Spacer() llena el espacio restante en la fila.
+                 * Modifier.weight establece el ancho/alto de un elemento de la IU
+                 * de manera proporcional en relacion con sus elementos medidos en el mismo nivel.
+                 * */
+                Spacer(modifier = Modifier.weight(1f))
+                DogItemButton(expanded, onClick = { expanded = !expanded })
+            }
+            if (expanded) {
+                DogHobby(
+                    dogHobby = dog.hobbies, modifier = Modifier.padding(
+                        start = dimensionResource(
+                            id = R.dimen.padding_medium
+                        ),
+                        top = dimensionResource(id = R.dimen.padding_small),
+                        end = dimensionResource(id = R.dimen.padding_small),
+                        bottom = dimensionResource(id = R.dimen.padding_medium)
+                    )
+                )
+            }
         }
     }
 }
 
 @Composable
 fun DogItemButton(
-    expanded: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    expanded: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier
 ) {
     IconButton(onClick = onClick, modifier = modifier) {
         Icon(
-            imageVector = Icons.Filled.ExpandMore,
+            imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
             contentDescription = stringResource(id = R.string.expand_button_content_description),
+            // El parametro tint establece el color del icono
             tint = MaterialTheme.colorScheme.secondary
+        )
+    }
+}
+
+@Composable
+fun DogHobby(
+    @StringRes dogHobby: Int, modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        Text(
+            text = stringResource(id = R.string.about),
+            style = MaterialTheme.typography.labelSmall
+        )
+        Text(
+            text = stringResource(id = dogHobby),
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }
@@ -162,8 +200,7 @@ fun DogItemButton(
  */
 @Composable
 fun DogIcon(
-    @DrawableRes dogIcon: Int,
-    modifier: Modifier = Modifier
+    @DrawableRes dogIcon: Int, modifier: Modifier = Modifier
 ) {
     Image(
         modifier = modifier
@@ -172,8 +209,7 @@ fun DogIcon(
             // El modificador clip permite recortar la imagen para que se ajuste a una forma
             .clip(MaterialTheme.shapes.small),
         // El atributo ContentScale y la propiedad Crop ajustan una imagen para que cubra completamente su contenedor
-        contentScale = ContentScale.Crop,
-        painter = painterResource(dogIcon),
+        contentScale = ContentScale.Crop, painter = painterResource(dogIcon),
 
         // Content Description is not needed here - image is decorative, and setting a null content
         // description allows accessibility services to skip this element during navigation.
@@ -191,9 +227,7 @@ fun DogIcon(
  */
 @Composable
 fun DogInformation(
-    @StringRes dogName: Int,
-    dogAge: Int,
-    modifier: Modifier = Modifier
+    @StringRes dogName: Int, dogAge: Int, modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
         Text(

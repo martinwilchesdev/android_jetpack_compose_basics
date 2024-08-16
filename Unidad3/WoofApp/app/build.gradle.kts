@@ -65,6 +65,11 @@ android {
     }
 }
 
+/**
+ * El bloque dependencies permite agregar dependencias en un proyecto.
+ * Cuando se compila la app, el sistema de compilacion crea el modulo de biblioteca
+ * y empaqueta el contenido compilado resultante en la app.
+ * */
 dependencies {
 
     implementation(platform("androidx.compose:compose-bom:2023.05.01"))
@@ -76,7 +81,6 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.compose.material:material-icons-extended")
 
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     debugImplementation("androidx.compose.ui:ui-tooling")
